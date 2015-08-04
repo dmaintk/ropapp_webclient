@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Administracion de tiendas</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Administración de tiendas</a>
+            </div>
+			
+			<!-- Top Menu Items -->
+			<ul class="nav navbar-right top-nav">
+             <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>      
+			
+           <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="index.html"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
+                    </li>
+                    <li>
+                        <a href="pedidos.html"><i class="fa fa-fw fa-truck"></i> Pedidos</a>
+                    </li>
+					<li>
+                        <a href="compras.html"><i class="fa fa-fw fa-usd"></i> Compras</a>
+                    </li>
+					<li>
+                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Sucursales</a>
+                    </li>
+				</ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+		   <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Administración de prendas
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-gears"></i>  <a href="index.html"> Administración de prendas</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                   <div class="col-lg-6">
+                        <h1>Seleccionar prenda</h1>
+
+                        <form role="form">
+
+                          <div class="form-group">
+                                    <select id="prendaSelect" class="form-control">
+                                        <option>Prenda 1</option>
+										<option>Prenda 2</option>
+										<option>Prenda 3</option>
+										<option>Prenda 4</option>
+									</select>
+                                </div>
+								
+								<a href="crear.html" class="btn btn-info" role="button">Crear</a>
+								<a href="editar.html" class="btn btn-info" role="button">Editar</a>
+								<button class="btn btn-primary">Eliminar</button>
+
+                        </form>
+															
+                    </div>
+					
+					  <div class="col-lg-6">
+                        <h1>Stock</h1>
+
+                      				
+						<form role="form">
+							<div class="form-group">
+							<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+								<div class="input-group">
+								<div class="input-group-addon">$</div>
+									<input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+								<div class="input-group-addon">.00</div>
+							</div>
+								</div>
+							<button type="submit" class="btn btn-primary">Aumentar/Disminuir</button>
+						</form>
+						
+                    </div>
+					
+                </div>
+                <!-- /.row -->
+			 <hr>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">Información de la prenda</div>
+						<div class="panel-body">
+							 <div class="col-lg-6">
+								<div class="table-responsive">
+											<table class="table table-bordered table-hover">
+												<tbody>
+													<tr>
+														<td>Código</td>
+														<td>1234</td>
+													</tr>
+													<tr>
+														<td>Nombre del modelo</td>
+														<td>505 Original</td>
+													</tr>
+													<tr>
+														<td>Talle</td>
+														<td>34</td>
+													</tr>
+													<tr>
+														<td>Color</td>
+														<td>Negro</td>
+													</tr>
+													<tr>
+														<td>Precio</td>
+														<td>$ 1004.75</td>
+													</tr>
+													<tr>
+														<td>Tipo</td>
+														<td>Camiseta</td>
+													</tr>
+
+													
+													
+												</tbody>
+											</table>
+										</div>
+								</div>
+								<div class="col-lg-6">
+									<img class="img-thumbnail" src="http://www.uniformesbordados.com.mx/imagenes/camisas/camisas-casuales/camisa-laboral.jpg" alt="">		
+								</div>
+							</div>
+					</div>
+				</div>
+			<!-- /.row -->	
+					  					
+            </div>
+                
+			
+			</div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+		
+      </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
+
+</body>
+
+</html>

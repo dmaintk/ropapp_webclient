@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="utf-8">
+    <script type="text/javascript" src="libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="ropapp.api.js"></script>
+
+    <script>
+        $(document).ready( function() {
+            $("#submit").click( function() {
+                var user = $("#username").val();
+
+                Ropapp.getUserData( user,
+                    function(response) {
+                        $.each(response, function(index, element) {
+                            $("#div1").append(element+"<br>");
+                        });
+                    }
+                );
+            });
+        });
+    </script>
+
+  </head>
+  <body>
+    <h1>Ver datos de usuario</h1>
+    <input type="text" id="username" value="testy">
+    <input type="button" id="submit" value="Ver datos">
+    <div id="div1"></div>
+  </body>
+</html>
