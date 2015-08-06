@@ -25,23 +25,27 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="api/libs/js.cookie.js"></script>
     <script type="text/javascript" src="api/ropapp.api.js"></script>
 
     <script>
-        $(document).ready( function() {
+        $(document).ready( function() {        
+            if(Ropapp.isLoggedIn())
+                Ropapp.logout();
+
             $("#signin").click( function() {
-                var object = {
+                var credentials = {
                     username: $("#inputEmail").val(), 
-                    pass: $("#inputPassword").val()};
+                    pass: $("#inputPassword").val()
+                };
 
-                console.log(object);
-
-                Ropapp.login( object, 
+                Ropapp.login( credentials, 
                     function(response) {
-                        $("#div1").append("<br>"+response);
+                        $("form").submit();
                     },
                     function(response) {
-                        $("#div1").append("<br>"+response);
+                        $("#unsuccessfullLogin").html("<br>"+response);
+                        $("#inputPassword").val("");
                     }
                 );
             });
@@ -53,7 +57,7 @@
 
     <div class="container">
 
-      <form class="form-signin" id="leloe">
+      <form class="form-signin" action="index.html">
         <h2 class="form-signin-heading">Por favor loggeése</h2>
         <label for="inputEmail" class="sr-only">Nombre de usuario</label>
         <input id="inputEmail" class="form-control" placeholder="Nombre de usuario" required="" autofocus="" type="text">
@@ -64,12 +68,10 @@
             <input value="remember-me" type="checkbox"> Recordar contraseña
           </label>
         </div>
-        <button href="index.html" class="btn btn-lg btn-primary btn-block" id="signin" type="button">Sign in</button>
+        <div id="unsuccessfullLogin"></div>
+        <button href="index.html" class="btn btn-lg btn-primary btn-block" type="button" id="signin">Sign in</button>
 	  </form>
-	  <a href="index.html" class="btn btn-info" role="button">Entrar</a>
 
     </div> <!-- /container -->
-<div id="div1"></div>
-
 
 </body></html>
