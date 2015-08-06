@@ -29,6 +29,21 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="api/libs/js.cookie.js"></script>
+    <script type="text/javascript" src="api/ropapp.api.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var href = $('.fa fa-fw fa-power-off').attr('href');
+
+            href.click( function() {
+                Ropapp.logout( function(response) {
+                    window.location.href = href;
+                });
+            });
+        });
+    </script>
 
 </head>
 
@@ -59,7 +74,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
+                            <a href="login.html"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
                         </li>
                     </ul>
                 </li>

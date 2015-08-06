@@ -1,4 +1,4 @@
-// Extiendo jQuery con esta función
+
 jQuery.fn.serializeObject = function() {
   var arrayData, objectData;
   arrayData = this.serializeArray();
@@ -34,34 +34,27 @@ jQuery.isDef = function( val ) {
 var Ropapp = (function() {
     var debug = true;
     var baseUrl = "http://ropapp.cloudapp.net/";
-    var token = "";  // TODO: escribir esto en una cookie
-    var username = "";  // idem
+    Cookies.defaults = { expires: 7, path: '/' };
 
-    var ajaxCall = function( type, url, data, onSuccess, onError ) {
-        $.ajax({
+    var ajaxCall = function( type, url, data ) {
+        return $.ajax({
             type: type, 
             url: baseUrl + url, 
             data: data, 
-            dataType: 'json',
-            success: function(response) {
-                onSuccess(response);
-            },
-            error: function(response) {
-                onError(response);
-            }
+            dataType: 'json'  // tipo de respuesta
         });
     }
 
-    var post = function( url, data, onSuccess, onError ) {
-        ajaxCall( 'POST', url, data, onSuccess, onError );
+    var post = function( url, data ) {
+        return ajaxCall( 'POST', url, data );
     }
 
-    var get = function( url, onSuccess, onError ) {
-        ajaxCall( 'GET', url, {}, onSuccess, onError );
+    var get = function( url ) {
+        return ajaxCall( 'GET', url, {} );
     }
 
-    var del = function( url, onSuccess, onError ) {
-        ajaxCall( 'DELETE', url, {}, onSuccess, onError );
+    var del = function( url ) {
+        return ajaxCall( 'DELETE', url, {} );
     }
 
     var callIfDef = function( func, param ) {
@@ -75,68 +68,81 @@ var Ropapp = (function() {
     return {  // Interfaz pública
 
         login: function( credentials, onSuccess, onError ) {
-            post('signin', credentials, 
-                function(response) {
-                    token = response.access_token;
-                    username = credentials.username;
-                    callIfDef(onSuccess, "Login exitoso");
-                }, 
-                function(response) {
-                    callIfDef(onError, "Usuario o contraseña incorrecta");
-                });
+            var request = post('signin', credentials);
+
+            request.done(function(response) {
+                Cookies.set('token', response.access_token);
+                Cookies.set('username', credentials.username);
+                callIfDef(onSuccess, "Login exitoso");
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "Usuario o contraseña incorrecta");
+            });
         },
 
         logout: function( onSuccess, onError ) {
-            post('signout', { access_token: token }, 
-                function(response) {
-                    token = "";
-                    username = "";
-                    callIfDef(onSuccess, "Logout exitoso");
-                }, 
-                function(response) {
-                    callIfDef(onError, "El usuario no estaba loggeado");
-                });   
+            var request = post('signout', { access_token: Cookies.get('token') });
+            
+            request.done(function(response) {
+                Cookies.remove('token');
+                callIfDef(onSuccess, "Logout exitoso");
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "El usuario no estaba loggeado");
+            });   
         },
 
         isLoggedIn: function() {
-            return token != "";
+            return $.isDef(Cookies.get('token'));
+        },
+
+        getUsername: function() {
+            var username = Cookies.get('username');
+            return $.isDef(username) ? username : "";
         },
 
         registerUser: function( formContent, onSuccess, onError ) {
-            post('signup', formContent, 
-                function(response) {
-                    token = response.access_token;
-                    username = formContent.username;
+            var request = post('signup', formContent);
+            
+            request.done(function(response) {
+                    Cookies.set('token', response.access_token);
+                    Cookies.set('username', formContent.username);
                     callIfDef(onSuccess, "Usuario creado exitosamente");
-                }, 
-                function(response) {
-                    callIfDef(onError, "No se pudo crear el usuario: "+
-                            response.responseText);
-                });
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "No se pudo crear el usuario: "+
+                        response.responseText);
+            });
         },
 
-        getUserData: function( user, onSuccess, onError ) {
-            get('user/' + ($.isDef(user) ? user : username), 
-                function(response) {
-                    console.log(user);
-                    callIfDef(onSuccess, response);
-                },
-                function(response) {
-                    console.log(user);
-                    callIfDef(onError, "El usuario no existe");
-                }
-            );
+        getUserData: function( username, onSuccess, onError ) {
+            var request = get('user/' + username);
+            
+            request.done(function(response) {
+                console.log(username);
+                callIfDef(onSuccess, response);
+            });
+
+            request.fail(function(response) {
+                console.log(username);
+                callIfDef(onError, "El usuario no existe");
+            });
         },
 
-        removeUser: function( user, onSuccess, onError ) {
-            del('user/' + /*($.isDef(user) ? user : username)*/"lalobla5" + '?access_token=' + token,
-                function(response) {
-                    callIfDef(onSuccess, "Usuario eliminado exitosamente");
-                }, 
-                function(response) {
-                    callIfDef(onError, "No se pudo eliminar el usuario: "+
-                            response.responseText);
-                });
+        removeUser: function( username, onSuccess, onError ) {
+            var request = del('user/' + username + '?access_token=' + Cookies.get('token'));
+            
+            request.done(function(response) {
+                callIfDef(onSuccess, "Usuario eliminado exitosamente");
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "No se pudo eliminar el usuario: "+
+                        response.responseText);
+            });
         }
     }
 })();
