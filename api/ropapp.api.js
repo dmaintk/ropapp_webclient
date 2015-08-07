@@ -4,7 +4,7 @@ var Ropapp = (function() {
     var baseUrl = "http://ropapp.cloudapp.net/";
     Cookies.defaults = { expires: 7, path: '/' };
 
-    var ajaxCall = function( type, url, data ) {
+    var ajaxCall = function( type, url, data ) { 
         return $.ajax({
             type: type, 
             url: baseUrl + url, 
@@ -150,4 +150,3 @@ var Ropapp = (function() {
         }
     }
 })();
-
