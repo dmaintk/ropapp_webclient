@@ -41,13 +41,35 @@
 
                 Ropapp.login( credentials, 
                     function(response) {
-                        $("form").submit();
+                        $("#enter")[0].click();
                     },
                     function(response) {
                         $("#unsuccessfullLogin").html("<br>"+response);
                         $("#inputPassword").val("");
                     }
                 );
+            });
+
+            $("#createbtn").click( function() {
+                var newUser = {
+                    username: $("#username").val(), 
+                    first_name: $("#first_name").val(),
+                    last_name: $("#last_name").val(),
+                    mail: $("#mail").val(),
+                    type: $("input:radio[name=optionsRadios]:checked").val(),
+                    pass: $("#pass").val(),
+                    pass_rep: $("#pass_rep").val(),
+                    width: $("#width").val(),
+                    height: $("#height").val(),
+                };
+
+                Ropapp.registerUser( newUser, 
+                    function(response) {
+                        $("#enter")[0].click();
+                    },
+                    function(response) {
+                        
+                    });
             });
         });
     </script>
@@ -69,7 +91,8 @@
 				  </label>
 				</div>
 				<div id="unsuccessfullLogin"></div>
-				<button href="index.html" class="btn btn-lg btn-primary btn-block" type="button" id="signin">Sign in</button>
+				<button href="#" class="btn btn-lg btn-primary btn-block" type="button" id="signin">Sign in</button>
+				<a href="index.html" id="enter"></a>
 			  </form>
 		</div>
 		 <div class="row">
@@ -79,54 +102,52 @@
 								<div class="panel-body">
 									<div class="form-group">
 										<label>Nombre de usuario (Username)</label>
-										<input class="form-control" placeholder="Ingresar nombre de usuario.">
+										<input class="form-control" placeholder="Ingresar nombre de usuario." id="username">
 									</div>
 									<div class="form-group">
 										<label>Nombre</label>
-										<input class="form-control" placeholder="Ingresar nombre del usuario.">
+										<input class="form-control" placeholder="Ingresar nombre del usuario." id="first_name">
 									</div>
 									<div class="form-group">
 										<label>Apellido</label>
-										<input class="form-control" placeholder="Ingresar apellido del usuario.">
+										<input class="form-control" placeholder="Ingresar apellido del usuario." id="last_name">
 									</div>	
 									<div class="form-group">
 										<label>Email</label>
-										<input class="form-control" placeholder="Ingresar email del usuario.">
+										<input class="form-control" placeholder="Ingresar email del usuario." id="mail">
 									</div>	
 									<div class="form-group">
 										<label>Tipo de usuario</label>
 											<div class="radio">
 												<label>
-													<input type="radio" name="usersOptionsRadios" id="designer" value="option1">Diseñador
+													<input type="radio" name="optionsRadios" id="designer" value="designer">Diseñador
 												</label>
 											</div>
 											<div class="radio">
 												<label>
-													<input type="radio" name="usersOptionsRadios" id="store" value="option2" checked>Tienda
+													<input type="radio" name="optionsRadios" id="store" value="store" checked>Tienda
 												</label>
 											</div>
                                		</div>
 									<div class="form-group">
 										<label>Ancho de espalda</label>
-										<input class="form-control" placeholder="Ingresar ancho de espalda del usuario en centímetros.">
+										<input class="form-control" placeholder="Ingresar ancho de espalda del usuario en centímetros." id="width">
 									</div>	
 									<div class="form-group">
 										<label>Altura</label>
-										<input class="form-control" placeholder="Ingresar altura del usuario.">
+										<input class="form-control" placeholder="Ingresar altura del usuario." id="height">
 									</div>
 									<div class="form-group">
 										<label>Contraseña</label>
-										<input class="form-control" type="password" placeholder="Ingresar contraseña del usuario.">
+										<input class="form-control" type="password" placeholder="Ingresar contraseña del usuario." id="pass">
 									</div>
 									<div class="form-group">
 										<label>Repetición de contraseña</label>
-										<input class="form-control" type="password" placeholder="Ingresar nuevamente la contraseña del usuario.">
+										<input class="form-control" type="password" placeholder="Ingresar nuevamente la contraseña del usuario." id="pass_rep">
 									</div>	
 									
-
-									
 								<div class="panel-footer">
-									<button type="button" class="btn btn-info">Crear cuenta</button>
+									<button type="button" class="btn btn-info" id="createbtn">Crear cuenta</button>
 								</div>
 							</div>
 						

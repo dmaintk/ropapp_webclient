@@ -95,7 +95,7 @@ var Ropapp = (function() {
             });
 
             request.fail(function(response) {
-                callIfDef(onError, "El usuario no existe");
+                callIfDef(onError, "El usuario no existe: "+username);
             });
         },
 
@@ -131,7 +131,7 @@ var Ropapp = (function() {
             });
 
             request.fail(function(response) {
-                callIfDef(onError, "La prenda no existe");
+                callIfDef(onError, "La prenda no existe: "+code);
             });
         },
 
