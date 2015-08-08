@@ -47,42 +47,42 @@ var Ropapp = (function() {
         /*** Autenticación ***/
 
         login: function( credentials, onSuccess, onError ) {
-            var request = post('signin', credentials);
+            var req = post('signin', credentials);
 
-            request.done(function(response) {
+            req.done(function(response) {
                 Cookies.set('token', response.access_token);
                 Cookies.set('username', credentials.username);
                 callIfDef(onSuccess, "Login exitoso");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "Usuario o contraseña incorrecta");
             });
         },
 
         logout: function( onSuccess, onError ) {
-            var request = post('signout', { access_token: Cookies.get('token') });
+            var req = post('signout', { access_token: Cookies.get('token') });
             
-            request.done(function(response) {
+            req.done(function(response) {
                 Cookies.remove('token');
                 callIfDef(onSuccess, "Logout exitoso");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "El usuario no estaba loggeado");
             });   
         },
 
         registerUser: function( formContent, onSuccess, onError ) {
-            var request = post('signup', formContent);
+            var req = post('signup', formContent);
             
-            request.done(function(response) {
+            req.done(function(response) {
                 Cookies.set('token', response.access_token);
                 Cookies.set('username', formContent.username);
                 callIfDef(onSuccess, "Usuario creado exitosamente");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "No se pudo crear el usuario: "+
                         error.responseText);
             });
@@ -92,30 +92,41 @@ var Ropapp = (function() {
         /*** Usuarios ***/
 
         getUserData: function( username, onSuccess, onError ) {
-            var request = get('user/' + username);
+            var req = get('user/' + username);
             
-            request.done(function(response) {
+            req.done(function(response) {
                 callIfDef(onSuccess, response);
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "El usuario no existe: "+username);
             });
         },
 
-        modifyUser : function( onSuccess, onError ) {
+        modifyUser: function( formContent, onSuccess, onError ) {
+            formContent.username = Cookies.get('username');
+            formContent.access_token = Cookies.get('token');
+            var req = put('user', formContent);
 
+            req.done(function(response) {
+                callIfDef(onSuccess, "Usuario modificado exitosamente");
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "No se pudo modificar el usuario: "+
+                        error.responseText);
+            });
         },
 
         removeUser: function( onSuccess, onError ) {
-            var request = del('user/' + Cookies.get('username') + 
+            var req = del('user/' + Cookies.get('username') + 
                 '?access_token=' + Cookies.get('token'));
             
-            request.done(function(response) {
+            req.done(function(response) {
                 callIfDef(onSuccess, "Usuario eliminado exitosamente");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "No se pudo eliminar el usuario: "+
                         error.responseText);
             });
@@ -124,29 +135,81 @@ var Ropapp = (function() {
         
         /*** Sucursales ***/
 
-        
-        /*** Prendas ***/
-
-        getClothData: function( code, onSuccess, onError ) {
-            var request = get('cloth/'+Cookies.get('username')+'/'+code);
-
-            request.done(function(response) {
+        getLocationData: function( code, onSuccess, onError ) {
+            var req = get('location/'+Cookies.get('username')+'/'+code);
+            
+            req.done(function(response) {
                 callIfDef(onSuccess, response);
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
+                callIfDef(onError, "La sucursal no existe: "+error);
+            });
+        },
+
+        getUserLocations: function( onSuccess, onError ) {
+            var req = get('location/' + Cookies.get('username'));
+            
+            req.done(function(response) {
+                callIfDef(onSuccess, response["locations"]);
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "Error obteniendo sucursales: "+error);
+            });
+        },
+
+        registerLocation: function( formContent, onSuccess, onError ) {
+            formContent.access_token = Cookies.get('token');
+            var req = post('location', formContent);
+            
+            req.done(function(response) {
+                callIfDef(onSuccess, "Sucursal agregada exitosamente");
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "No se pudo agregar sucursal: "+
+                        error.responseText);
+            });
+        },
+
+        removeLocation: function( code, onSuccess, onError ) {
+            var req = del('location/' + Cookies.get('username') +
+                '/' + code + '?access_token=' + Cookies.get('token'));
+            
+            req.done(function(response) {
+                callIfDef(onSuccess, "Sucursal eliminada exitosamente");
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "No se pudo eliminar sucursal: "+
+                        error.responseText);
+            });
+        },
+
+
+        /*** Prendas ***/
+
+        getClothData: function( code, onSuccess, onError ) {
+            var req = get('cloth/'+Cookies.get('username')+'/'+code);
+
+            req.done(function(response) {
+                callIfDef(onSuccess, response);
+            });
+
+            req.fail(function(error) {
                 callIfDef(onError, "La prenda no existe: "+error);
             });
         },
 
         getUserClothes: function( onSuccess, onError ) {
-            var request = get('cloth/search?seller_id='+Cookies.get('username'));
+            var req = get('cloth/search?seller_id='+Cookies.get('username'));
             
-            request.done(function(response) {
+            req.done(function(response) {
                 callIfDef(onSuccess, response["clothes"]);
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "Error obteniendo prendas: "+error);
             });   
         },
@@ -161,13 +224,13 @@ var Ropapp = (function() {
 
         registerCloth: function( formContent, onSuccess, onError ) {
             formContent.access_token = Cookies.get('token');
-            var request = post('cloth', formContent);
+            var req = post('cloth', formContent);
             
-            request.done(function(response) {
+            req.done(function(response) {
                 callIfDef(onSuccess, "Prenda creada exitosamente");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "No se pudo crear la prenda: "+
                         error.responseText);
             });
@@ -175,33 +238,66 @@ var Ropapp = (function() {
 
         modifyCurrentCloth: function( formContent, onSuccess, onError ) {
             formContent.access_token = Cookies.get('token');
-            var request = put('cloth/'+Cookies.get('currCloth'), formContent);
+            var req = put('cloth/'+Cookies.get('currCloth'), formContent);
 
-            request.done(function(response) {
+            req.done(function(response) {
                 callIfDef(onSuccess, "Prenda modificada exitosamente");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "No se pudo modificar la prenda: "+
                         error.responseText);
             });
         },
 
-        removeCurrentCloth: function() {
-            var request = del('cloth/'+ Cookies.get('username') +
+        removeCurrentCloth: function( onSuccess, onError ) {
+            var req = del('cloth/'+ Cookies.get('username') +
                 '/' + Cookies.get('currCloth') +
                 '?access_token=' + Cookies.get('token'));
             
-            request.done(function(response) {
+            req.done(function(response) {
                 callIfDef(onSuccess, "Prenda eliminada exitosamente");
             });
 
-            request.fail(function(error) {
+            req.fail(function(error) {
                 callIfDef(onError, "No se pudo eliminar la prenda: " +
                         error.responseText);
             });
         },
 
+
+        /*** Stock ***/
+
+        getCurrentClothStock: function( onSuccess, onError ) {
+            var req = get('stock/'+Cookies.get('username')+
+                '/'+Cookies.get('currCloth'));
+            
+            req.done(function(response) {
+                $.each(response["clothes"], function(i, cloth) {
+                    if(cloth.code == Cookies.get('currCloth'))
+                        callIfDef(onSuccess, cloth.quantity);
+                });
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "Error obteniendo stock: "+error);
+            });   
+        },
+
+        modifyCurrentClothStock: function( newqty, onSuccess, onError ) {
+            var formContent = { quantity: newqty, 
+                access_token: Cookies.get('token') };
+            var req = put('stock/'+Cookies.get('currCloth'), formContent);
+
+            req.done(function(response) {
+                callIfDef(onSuccess, "Stock modificado exitosamente");
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "No se pudo modificar el stock: "+
+                        error.responseText);
+            });
+        },
 
         /*** Misc ***/
 
@@ -224,10 +320,10 @@ var Ropapp = (function() {
         },
 
         getClothTypeTranslation: function( type ) {
-            var esp = {"t-shirt": "Camiseta", "shirt": "Camisa", 
+            var espaniol = {"t-shirt": "Camiseta", "shirt": "Camisa", 
                 "sweater": "Sweater", "shoes": "Zapatos", 
                 "trousers": "Pantalones", "jacket": "Chaqueta"};
-            return esp[type];
+            return espaniol[type];
         }
     }
 })();

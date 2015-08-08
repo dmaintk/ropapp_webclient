@@ -35,22 +35,24 @@
 
     <script>
         function setCurrentCloth( cloth ) {
-            $("#code").html(cloth.code);
-            $("#brand").html(cloth.brand);
-            $("#model").html(cloth.model);
-            $("#size").html(cloth.size);
-            $("#color").html(cloth.color);
-            $("#price").html(cloth.price);
-            $("#type").html(Ropapp.getClothTypeTranslation(cloth.type));
-
             Ropapp.setCurrentCloth(cloth.code);
+
+            Ropapp.getCurrentClothStock( function(quantity) {
+                $("#code").html(cloth.code);
+                $("#brand").html(cloth.brand);
+                $("#model").html(cloth.model);
+                $("#size").html(cloth.size);
+                $("#color").html(cloth.color);
+                $("#price").html(cloth.price);
+                $("#type").html(Ropapp.getClothTypeTranslation(cloth.type));
+                $("#inputAmount").val(quantity);
+            });
         }
 
         $(document).ready(function() {
             Ropapp.getUserData( Ropapp.getUsername(),
-                function(response) {
-                    var fullName = response.first_name
-                        +' '+response.last_name;
+                function(user) {
+                    var fullName = user.first_name+' '+user.last_name;
                     $('#username').text(' '+fullName+' ');
                 }
             );
@@ -83,6 +85,13 @@
             $("#remove").click( function() {
                 Ropapp.removeCurrentCloth( function(response) {
                     window.location = "index.html";    
+                });
+            });
+
+            $("#updateStockBtn").click( function() {
+                Ropapp.modifyCurrentClothStock( $("#inputAmount").val(), 
+                    function(response) {
+                    // TODO: mostrar por pantalla que se modificó exitosamente 
                 });
             });
         });
@@ -180,17 +189,14 @@
 					
 					  <div class="col-lg-6">
                         <h1>Stock</h1>
-	
-						<form role="form">
+							<form role="form">
 							<div class="form-group">
-							<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
 								<div class="input-group">
-								<div class="input-group-addon">$</div>
-									<input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+									<input type="text" class="form-control" id="inputAmount" placeholder="Amount">
 								<div class="input-group-addon">.00</div>
 							</div>
 								</div>
-							<button type="submit" class="btn btn-primary">Aumentar/Disminuir</button>
+							<button type="button" class="btn btn-primary" id="updateStockBtn">Actualizar</button>
 						</form>
 						
                     </div>
