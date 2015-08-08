@@ -45,7 +45,7 @@
 
                 Ropapp.registerCloth( newCloth, 
                     function(response) {
-                        $("#goback")[0].click();
+                        window.location = "index.html";
                     },
                     function(response) {
                         
@@ -198,7 +198,6 @@
 								</div>
 								<div class="panel-footer">
 									<button type="button" class="btn btn-info" id="createbtn">Crear prenda</button>
-                                    <a href="index.html" id="goback"></a>
 								</div>
 							</div>
 					</div>

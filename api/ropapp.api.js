@@ -17,6 +17,10 @@ var Ropapp = (function() {
         return ajaxCall( 'POST', url, data );
     }
 
+    var put = function( url, data ) {
+        return ajaxCall( 'PUT', url, data );
+    }
+
     var get = function( url ) {
         return ajaxCall( 'GET', url, {} );
     }
@@ -145,11 +149,9 @@ var Ropapp = (function() {
 
         registerCloth: function( formContent, onSuccess, onError ) {
             formContent.access_token = Cookies.get('token');
-            console.log(formContent);
             var request = post('cloth', formContent);
             
             request.done(function(response) {
-                console.log(response);
                 callIfDef(onSuccess, "Prenda creada exitosamente");
             });
 
@@ -159,12 +161,33 @@ var Ropapp = (function() {
             });
         },
 
-        modifyCloth: function() {
-            
+        modifyCurrentCloth: function( formContent, onSuccess, onError ) {
+            formContent.access_token = Cookies.get('token');
+            var request = put('cloth/'+Cookies.get('currCloth'), formContent);
+
+            request.done(function(response) {
+                callIfDef(onSuccess, "Prenda modificada exitosamente");
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "No se pudo modificar la prenda: "+
+                        response.responseText);
+            });
         },
 
-        removeCloth: function() {
+        removeCurrentCloth: function() {
+            var request = del('cloth/'+ Cookies.get('username') +
+                '/' + Cookies.get('currCloth') +
+                '?access_token=' + Cookies.get('token'));
             
+            request.done(function(response) {
+                callIfDef(onSuccess, "Prenda eliminada exitosamente");
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "No se pudo eliminar la prenda: " +
+                        response.responseText);
+            });
         },
 
 
@@ -177,6 +200,15 @@ var Ropapp = (function() {
         getUsername: function() {
             var username = Cookies.get('username');
             return isDef(username) ? username : "";
+        },
+
+        setCurrentCloth: function( code ) {
+            Cookies.set('currCloth', code);
+        },
+
+        getCurrentCloth: function() {
+            var currCloth = Cookies.get('currCloth');
+            return isDef(currCloth) ? currCloth : "";
         },
 
         getClothTypeTranslation: function( type ) {

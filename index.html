@@ -34,7 +34,7 @@
     <script type="text/javascript" src="api/ropapp.api.js"></script>
 
     <script>
-        function setFields( cloth ) {
+        function setCurrentCloth( cloth ) {
             $("#code").html(cloth.code);
             $("#brand").html(cloth.brand);
             $("#model").html(cloth.model);
@@ -42,6 +42,8 @@
             $("#color").html(cloth.color);
             $("#price").html(cloth.price);
             $("#type").html(Ropapp.getClothTypeTranslation(cloth.type));
+
+            Ropapp.setCurrentCloth(cloth.code);
         }
 
         $(document).ready(function() {
@@ -52,7 +54,13 @@
                     $('#username').text(' '+fullName+' ');
                 }
             );
-            
+
+            $("#logout").click( function() {
+                Ropapp.logout( function(response) {
+                    window.location = "login.html";    
+                });
+            });
+
             // El API debería permitir pedir todos los
             // códigos de las prendas de un seller
             var userClothesCodes = ["1111", "2222"];
@@ -61,16 +69,24 @@
                 Ropapp.getClothData(code, function(cloth) {
                     $('#prendaSelect').append(
                         $('<option>', { "value" : cloth.code })
-                            .text(cloth.model));
+                            .text(cloth.brand+' - '+cloth.model));
 
-                    if(i == 0)
-                        setFields(cloth);
+                    if(i == 0) {
+                        $("#prendaSelect").val(cloth.code);
+                        setCurrentCloth(cloth);
+                    }
                 });
             });
 
             $('#prendaSelect').on('change', function() {
                 Ropapp.getClothData($(this).val(), function(cloth) {
-                    setFields(cloth);
+                    setCurrentCloth(cloth);
+                });
+            });
+
+            $("#remove").click( function() {
+                Ropapp.removeCurrentCloth( function(response) {
+                    window.location = "index.html";    
                 });
             });
         });
@@ -104,7 +120,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="login.html" id="logout"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
+                            <a href="#" id="logout"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
                         </li>
                     </ul>
                 </li>
@@ -160,7 +176,7 @@
 								
 								<a href="crear.html" class="btn btn-info" role="button">Crear</a>
 								<a href="editar.html" class="btn btn-info" role="button">Editar</a>
-								<button class="btn btn-primary">Eliminar</button>
+								<button class="btn btn-primary" id="remove">Eliminar</button>
 
                         </form>
 															
@@ -228,7 +244,7 @@
 										</div>
 								</div>
 								<div class="col-lg-6">
-									<img class="img-thumbnail" src="http://www.uniformesbordados.com.mx/imagenes/camisas/camisas-casuales/camisa-laboral.jpg" alt="">		
+									<img class="img-thumbnail" src="http://www.uniformesbordados.com.mx/imagenes/camisas/camisas-casuales/camisa-laboral.jpg" alt="">
 								</div>
 							</div>
 					</div>

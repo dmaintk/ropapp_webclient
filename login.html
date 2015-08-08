@@ -30,9 +30,6 @@
 
     <script>
         $(document).ready( function() {        
-            if(Ropapp.isLoggedIn())
-                Ropapp.logout();
-
             $("#signin").click( function() {
                 var credentials = {
                     username: $("#inputEmail").val(), 
@@ -41,7 +38,7 @@
 
                 Ropapp.login( credentials, 
                     function(response) {
-                        $("#enter")[0].click();
+                        window.location = "index.html";
                     },
                     function(response) {
                         $("#unsuccessfullLogin").html("<br>"+response);
@@ -65,10 +62,7 @@
 
                 Ropapp.registerUser( newUser, 
                     function(response) {
-                        $("#enter")[0].click();
-                    },
-                    function(response) {
-                        
+                        window.location = "index.html";
                     });
             });
         });
@@ -79,7 +73,7 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			  <form class="form-signin" action="index.html">
+			  <form class="form-signin">
 				<h2 class="form-signin-heading">Por favor loggeése</h2>
 				<label for="inputEmail" class="sr-only">Nombre de usuario</label>
 				<input id="inputEmail" class="form-control" placeholder="Nombre de usuario" required="" autofocus="" type="text">
@@ -92,7 +86,6 @@
 				</div>
 				<div id="unsuccessfullLogin"></div>
 				<button href="#" class="btn btn-lg btn-primary btn-block" type="button" id="signin">Sign in</button>
-				<a href="index.html" id="enter"></a>
 			  </form>
 		</div>
 		 <div class="row">

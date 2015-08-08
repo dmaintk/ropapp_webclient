@@ -26,7 +26,39 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="api/libs/js.cookie.js"></script>
+    <script type="text/javascript" src="api/ropapp.api.js"></script>
 
+    <script>
+        $(document).ready( function() {
+            Ropapp.getClothData(Ropapp.getCurrentCloth(), function(cloth) {
+                $("#code").val(cloth.code);
+                $("#brand").val(cloth.brand);
+                $("#model").val(cloth.model);
+                $("#size").val(cloth.size);
+                $("#color").val(cloth.color);
+                $("#price").val(cloth.price);
+                $("#"+cloth.type).prop('checked', true);
+            });
+
+            $("#modifybtn").click( function() {
+                var currCloth = {
+                    brand: $("#brand").val(),
+                    model: $("#model").val(),
+                    size: $("#size").val(),
+                    color: $("#color").val(),
+                    price: $("#price").val(),
+                    type: $("input:radio[name=optionsRadios]:checked").val()
+                };
+
+                Ropapp.modifyCurrentCloth( currCloth, 
+                    function(response) {
+                        window.location = "index.html";
+                    });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -108,69 +140,72 @@
 							<div class="panel-heading">Datos de la prenda</div>
 								<div class="panel-body">
 									<div class="form-group">
-										<label>Código</label>
-										<input class="form-control" placeholder="Ingresar código de la prenda." disabled>
-									</div>
-									<div class="form-group">
-										<label>Nombre del modelo</label>
-										<input class="form-control" placeholder="Ingresar nombre del modelo de la prenda.">
-									</div>
-									<div class="form-group">
-										<label>Talle</label>
-										<input class="form-control" placeholder="Ingresar talle de la prenda.">
-									</div>
-									<div class="form-group">
-										<label>Color</label>
-										<input class="form-control" placeholder="Ingresar color de la prenda.">
-									</div>
-									<div class="form-group">
-										<label>Precio</label>
-										<input class="form-control" placeholder="Ingresar precio de la prenda.">
-									</div>
-								
-							<div class="form-group">
-										<label>Tipo</label>
-										<div class="radio">
-											<label>
-												<input type="radio" name="optionsRadios" id="t-shirt" value="option1" checked>Camiseta
-											</label>
+                                        <label>Código</label>
+                                        <input class="form-control" placeholder="Ingresar código de la prenda." disabled id="code">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Marca</label>
+                                        <input class="form-control" placeholder="Ingresar nombre de la marca de la prenda." id="brand">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Modelo</label>
+                                        <input class="form-control" placeholder="Ingresar nombre del modelo de la prenda." id="model">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Talle</label>
+                                        <input class="form-control" placeholder="Ingresar talle de la prenda." id="size">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Color</label>
+                                        <input class="form-control" placeholder="Ingresar color de la prenda." id="color">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Precio</label>
+                                        <input class="form-control" placeholder="Ingresar precio de la prenda." id="price">
+                                    </div>
+                                
+                            <div class="form-group">
+                                        <label>Tipo</label>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="t-shirt" value="t-shirt" checked>Camiseta
+                                            </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="shirt" value="option2">Camisa
+                                        <input type="radio" name="optionsRadios" id="shirt" value="shirt">Camisa
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="sweater" value="option3">Sweater
+                                        <input type="radio" name="optionsRadios" id="sweater" value="sweater">Sweater
                                     </label>
                                 </div>
-								 <div class="radio">
+                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="shoes" value="option4">Zapatos
+                                        <input type="radio" name="optionsRadios" id="shoes" value="shoes">Zapatos
                                     </label>
                                 </div>
-								 <div class="radio">
+                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="trousers" value="option5">Pantalones
+                                        <input type="radio" name="optionsRadios" id="trousers" value="trousers">Pantalones
                                     </label>
                                 </div>
-								 <div class="radio">
+                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="optionsRadios" id="jacket" value="option6">Chaqueta
+                                        <input type="radio" name="optionsRadios" id="jacket" value="jacket">Chaqueta
                                     </label>
                                 </div>
                             </div>
-							<div class="form-group">
+                            <div class="form-group">
                                 <label>Imagen de la prenda</label>
                                 <input type="file">
                             </div>
-								</div>
-								<div class="panel-footer">
-									<button type="button" class="btn btn-info">Aceptar</button>
-								</div>
-							</div>
-						
+                                </div>
+                                <div class="panel-footer">
+                                    <button type="button" class="btn btn-info" id="modifybtn">Aplicar modificaciones</button>
+                                </div>
+                            </div>
 					</div>
 			</div>				
 			<div class="row">
