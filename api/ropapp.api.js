@@ -55,7 +55,7 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Login exitoso");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "Usuario o contraseña incorrecta");
             });
         },
@@ -68,7 +68,7 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Logout exitoso");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "El usuario no estaba loggeado");
             });   
         },
@@ -82,9 +82,9 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Usuario creado exitosamente");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "No se pudo crear el usuario: "+
-                        response.responseText);
+                        error.responseText);
             });
         },
 
@@ -98,7 +98,7 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, response);
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "El usuario no existe: "+username);
             });
         },
@@ -115,9 +115,9 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Usuario eliminado exitosamente");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "No se pudo eliminar el usuario: "+
-                        response.responseText);
+                        error.responseText);
             });
         },
 
@@ -129,14 +129,26 @@ var Ropapp = (function() {
 
         getClothData: function( code, onSuccess, onError ) {
             var request = get('cloth/'+Cookies.get('username')+'/'+code);
-            
+
             request.done(function(response) {
                 callIfDef(onSuccess, response);
             });
 
-            request.fail(function(response) {
-                callIfDef(onError, "La prenda no existe: "+code);
+            request.fail(function(error) {
+                callIfDef(onError, "La prenda no existe: "+error);
             });
+        },
+
+        getUserClothes: function( onSuccess, onError ) {
+            var request = get('cloth/search?seller_id='+Cookies.get('username'));
+            
+            request.done(function(response) {
+                callIfDef(onSuccess, response["clothes"]);
+            });
+
+            request.fail(function(error) {
+                callIfDef(onError, "Error obteniendo prendas: "+error);
+            });   
         },
 
         getClothImage: function( code, onSuccess, onError ) {
@@ -155,9 +167,9 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Prenda creada exitosamente");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "No se pudo crear la prenda: "+
-                        response.responseText);
+                        error.responseText);
             });
         },
 
@@ -169,9 +181,9 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Prenda modificada exitosamente");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "No se pudo modificar la prenda: "+
-                        response.responseText);
+                        error.responseText);
             });
         },
 
@@ -184,9 +196,9 @@ var Ropapp = (function() {
                 callIfDef(onSuccess, "Prenda eliminada exitosamente");
             });
 
-            request.fail(function(response) {
+            request.fail(function(error) {
                 callIfDef(onError, "No se pudo eliminar la prenda: " +
-                        response.responseText);
+                        error.responseText);
             });
         },
 

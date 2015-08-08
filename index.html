@@ -61,12 +61,8 @@
                 });
             });
 
-            // El API debería permitir pedir todos los
-            // códigos de las prendas de un seller
-            var userClothesCodes = ["1111", "2222"];
-
-            $.each(userClothesCodes, function (i, code) {
-                Ropapp.getClothData(code, function(cloth) {
+            Ropapp.getUserClothes( function(clothes) {
+                $.each(clothes, function(i, cloth) {
                     $('#prendaSelect').append(
                         $('<option>', { "value" : cloth.code })
                             .text(cloth.brand+' - '+cloth.model));
