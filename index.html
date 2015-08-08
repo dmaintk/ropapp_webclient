@@ -34,6 +34,16 @@
     <script type="text/javascript" src="api/ropapp.api.js"></script>
 
     <script>
+        function setFields( cloth ) {
+            $("#code").html(cloth.code);
+            $("#brand").html(cloth.brand);
+            $("#model").html(cloth.model);
+            $("#size").html(cloth.size);
+            $("#color").html(cloth.color);
+            $("#price").html(cloth.price);
+            $("#type").html(Ropapp.getClothTypeTranslation(cloth.type));
+        }
+
         $(document).ready(function() {
             Ropapp.getUserData( Ropapp.getUsername(),
                 function(response) {
@@ -42,6 +52,27 @@
                     $('#username').text(' '+fullName+' ');
                 }
             );
+            
+            // El API debería permitir pedir todos los
+            // códigos de las prendas de un seller
+            var userClothesCodes = ["1111", "2222"];
+
+            $.each(userClothesCodes, function (i, code) {
+                Ropapp.getClothData(code, function(cloth) {
+                    $('#prendaSelect').append(
+                        $('<option>', { "value" : cloth.code })
+                            .text(cloth.model));
+
+                    if(i == 0)
+                        setFields(cloth);
+                });
+            });
+
+            $('#prendaSelect').on('change', function() {
+                Ropapp.getClothData($(this).val(), function(cloth) {
+                    setFields(cloth);
+                });
+            });
         });
     </script>
 </head>
@@ -124,12 +155,7 @@
                         <form role="form">
 
                           <div class="form-group">
-                                    <select id="prendaSelect" class="form-control">
-                                        <option>Prenda 1</option>
-										<option>Prenda 2</option>
-										<option>Prenda 3</option>
-										<option>Prenda 4</option>
-									</select>
+                                    <select id="prendaSelect" class="form-control"></select>
                                 </div>
 								
 								<a href="crear.html" class="btn btn-info" role="button">Crear</a>
@@ -142,8 +168,7 @@
 					
 					  <div class="col-lg-6">
                         <h1>Stock</h1>
-
-                      				
+	
 						<form role="form">
 							<div class="form-group">
 							<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
@@ -170,32 +195,34 @@
 											<table class="table table-bordered table-hover">
 												<tbody>
 													<tr>
-														<td>Código</td>
-														<td>1234</td>
+														<td >Código</td>
+														<td id="code"></td>
 													</tr>
+                                                    <tr>
+                                                        <td>Marca</td>
+                                                        <td id="brand"></td>
+                                                    </tr>
 													<tr>
-														<td>Nombre del modelo</td>
-														<td>505 Original</td>
+														<td>Modelo</td>
+														<td id="model"></td>
 													</tr>
 													<tr>
 														<td>Talle</td>
-														<td>34</td>
+														<td id="size"></td>
 													</tr>
 													<tr>
 														<td>Color</td>
-														<td>Negro</td>
+														<td id="color"></td>
 													</tr>
 													<tr>
 														<td>Precio</td>
-														<td>$ 1004.75</td>
+														<td id="price"></td>
 													</tr>
 													<tr>
 														<td>Tipo</td>
-														<td>Camiseta</td>
+														<td id="type"></td>
 													</tr>
 
-													
-													
 												</tbody>
 											</table>
 										</div>

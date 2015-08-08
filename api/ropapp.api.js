@@ -39,6 +39,7 @@ var Ropapp = (function() {
 
     return {  // Interfaz pública
 
+        
         /*** Autenticación ***/
 
         login: function( credentials, onSuccess, onError ) {
@@ -83,6 +84,7 @@ var Ropapp = (function() {
             });
         },
 
+        
         /*** Usuarios ***/
 
         getUserData: function( username, onSuccess, onError ) {
@@ -97,8 +99,13 @@ var Ropapp = (function() {
             });
         },
 
-        removeUser: function( username, onSuccess, onError ) {
-            var request = del('user/' + username + '?access_token=' + Cookies.get('token'));
+        modifyUser : function( onSuccess, onError ) {
+
+        },
+
+        removeUser: function( onSuccess, onError ) {
+            var request = del('user/' + Cookies.get('username') + 
+                '?access_token=' + Cookies.get('token'));
             
             request.done(function(response) {
                 callIfDef(onSuccess, "Usuario eliminado exitosamente");
@@ -109,6 +116,57 @@ var Ropapp = (function() {
                         response.responseText);
             });
         },
+
+        
+        /*** Sucursales ***/
+
+        
+        /*** Prendas ***/
+
+        getClothData: function( code, onSuccess, onError ) {
+            var request = get('cloth/'+Cookies.get('username')+'/'+code);
+            
+            request.done(function(response) {
+                callIfDef(onSuccess, response);
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "La prenda no existe");
+            });
+        },
+
+        getClothImage: function( code, onSuccess, onError ) {
+
+        },
+
+        registerClothImage: function( image, onSuccess, onError ) {
+
+        },
+
+        registerCloth: function( formContent, onSuccess, onError ) {
+            formContent.access_token = Cookies.get('token');
+            console.log(formContent);
+            var request = post('cloth', formContent);
+            
+            request.done(function(response) {
+                console.log(response);
+                callIfDef(onSuccess, "Prenda creada exitosamente");
+            });
+
+            request.fail(function(response) {
+                callIfDef(onError, "No se pudo crear la prenda: "+
+                        response.responseText);
+            });
+        },
+
+        modifyCloth: function() {
+            
+        },
+
+        removeCloth: function() {
+            
+        },
+
 
         /*** Misc ***/
 
@@ -121,32 +179,11 @@ var Ropapp = (function() {
             return isDef(username) ? username : "";
         },
 
-        serializeObject: function( obj ) {  // Convierte un objeto HTML en uno de JS
-            var arrayData, objectData;
-            arrayData = obj.serializeArray();
-            objectData = {};
-
-            $.each(arrayData, function() {
-                var value;
-
-                if (obj.value != null) {
-                    value = obj.value;
-                } else {
-                    value = '';
-                }
-
-                if (objectData[obj.name] != null) {
-                    if (!objectData[obj.name].push) {
-                        objectData[obj.name] = [objectData[obj.name]];
-                    }
-
-                    objectData[obj.name].push(value);
-                } else {
-                    objectData[obj.name] = value;
-                }
-            });
-
-            return objectData;
+        getClothTypeTranslation: function( type ) {
+            var esp = {"t-shirt": "Camiseta", "shirt": "Camisa", 
+                "sweater": "Sweater", "shoes": "Zapatos", 
+                "trousers": "Pantalones", "jacket": "Chaqueta"};
+            return esp[type];
         }
     }
 })();
