@@ -215,7 +215,7 @@ var Ropapp = (function() {
         },
 
         getClothImage: function( code, onSuccess, onError ) {
-
+            
         },
 
         registerClothImage: function( image, onSuccess, onError ) {
@@ -298,6 +298,7 @@ var Ropapp = (function() {
                         error.responseText);
             });
         },
+
 
         /*** Misc ***/
 
