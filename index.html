@@ -142,14 +142,8 @@
                     <li class="active">
                         <a href="index.html"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
                     </li>
-                    <li>
-                        <a href="pedidos.html"><i class="fa fa-fw fa-truck"></i> Pedidos</a>
-                    </li>
-					<li>
-                        <a href="compras.html"><i class="fa fa-fw fa-usd"></i> Compras</a>
-                    </li>
-					<li>
-                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Sucursales</a>
+                 	<li>
+                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Administración de sucursales</a>
                     </li>
 				</ul>
             </div>
@@ -198,11 +192,36 @@
 							<form role="form">
 							<div class="form-group">
 								<div class="input-group">
-									<input type="text" class="form-control" id="inputAmount" placeholder="Amount">
-								<div class="input-group-addon">.00</div>
+									<input type="text" class="form-control" id="inputAmount" placeholder="-">
+								<div class="input-group-addon">Unidades</div>
 							</div>
 								</div>
-							<button type="button" class="btn btn-primary" id="updateStockBtn">Actualizar</button>
+								
+							<button type="button" class="btn btn-primary"" data-toggle="modal" id="updateStockBtn" data-target="#myModal">Actualizar</button>
+							
+							  <!-- Modal -->
+						  <div class="modal fade" id="myModal" role="dialog">
+							<div class="modal-dialog">
+							
+							  <!-- Modal content-->
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <button type="button" class="close" data-dismiss="modal">&times;</button>
+								  <h4 class="modal-title">Información</h4>
+								</div>
+								<div class="modal-body">
+								  <p>El stock de la prenda fue actualizado con éxito.</p>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							  </div>
+							  
+							</div>
+						  </div>
+						  
+						</div>
+							
 						</form>
 						
                     </div>
@@ -212,48 +231,54 @@
 			 <hr>
 			<div class="row">
 				<div class="panel panel-default">
-					<div class="panel-heading">Información de la prenda</div>
+					<div class="panel-heading"><strong>Información de la prenda</strong></div>
 						<div class="panel-body">
-							 <div class="col-lg-6">
+							 <div class="col-lg-5 col-lg-offset-1">
 								<div class="table-responsive">
-											<table class="table table-bordered table-hover">
+											<table class="table table-striped table-bordered table-hover">
 												<tbody>
 													<tr>
-														<td >Código</td>
-														<td id="code"></td>
+														<td class="col-md-3" ><strong>Código</strong></td>
+														<td class="col-md-9" id="code"></td>
 													</tr>
                                                     <tr>
-                                                        <td>Marca</td>
-                                                        <td id="brand"></td>
+                                                        <td class="col-md-3"><strong>Marca</strong></td>
+                                                        <td class="col-md-9" id="brand"></td>
                                                     </tr>
 													<tr>
-														<td>Modelo</td>
-														<td id="model"></td>
+														<td class="col-md-3"><strong>Modelo</strong></td>
+														<td class="col-md-9" id="model"></td>
 													</tr>
 													<tr>
-														<td>Talle</td>
-														<td id="size"></td>
+														<td class="col-md-3"><strong>Talle</strong></td>
+														<td class="col-md-9" id="size"></td>
 													</tr>
 													<tr>
-														<td>Color</td>
-														<td id="color"></td>
+														<td class="col-md-3"><strong>Color</strong></td>
+														<td class="col-md-9" id="color"></td>
 													</tr>
 													<tr>
-														<td>Precio</td>
-														<td id="price"></td>
+														<td class="col-md-3"><strong>Precio</strong></td>
+														<td class="col-md-9" id="price"></td>
 													</tr>
 													<tr>
-														<td>Tipo</td>
-														<td id="type"></td>
+														<td class="col-md-3"><strong>Tipo</strong></td>
+														<td class="col-md-9" id="type"></td>
 													</tr>
 
 												</tbody>
 											</table>
 										</div>
 								</div>
-								<div class="col-lg-6">
-									<img class="img-thumbnail" src="http://www.uniformesbordados.com.mx/imagenes/camisas/camisas-casuales/camisa-laboral.jpg" alt="">
-                                    <img class="img-thumbnail" src="" id="barcode">
+								<div class="col-lg-4 col-lg-offset-2">
+								<div class="row"">
+									<img class="img-thumbnail" src="http://www.uniformesbordados.com.mx/imagenes/camisas/camisas-casuales/camisa-laboral.jpg" alt="" width="200" height="500">
+								</div>	
+								<div class="row"">
+								 <div class="col-lg-12 col-lg-offset-1">
+                                    <img class="img-thumbnail" src="" id="barcode" width="93" height="220">
+								</div>	
+								</div>	
 								</div>
 							</div>
 					</div>

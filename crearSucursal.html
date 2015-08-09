@@ -32,7 +32,21 @@
 	
 	 <script>
         $(document).ready( function() {
-            $("#createbtn").click( function() {
+            
+			 Ropapp.getUserData( Ropapp.getUsername(),
+					function(user) {
+						var fullName = user.first_name+' '+user.last_name;
+						$('#username').text(' '+fullName+' ');
+					}
+				);
+			
+			    $("#logout").click( function() {
+                Ropapp.logout( function(response) {
+                    window.location = "login.html";    
+                });
+            });
+			
+			$("#createbtn").click( function() {
                 var newLocation = {
                     location_code: $("#code").val(), 
                     address: $("#address").val(),
@@ -71,14 +85,14 @@
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
              <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" id="username"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
+                            <a href="#" id="logout"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
                         </li>
                     </ul>
                 </li>
@@ -90,14 +104,8 @@
                     <li>
                         <a href="index.html"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
                     </li>
-                    <li>
-                        <a href="pedidos.html"><i class="fa fa-fw fa-truck"></i> Pedidos</a>
-                    </li>
-					<li>
-                        <a href="compras.html"><i class="fa fa-fw fa-usd"></i> Compras</a>
-                    </li>
-					<li class="active">
-                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Sucursales</a>
+                   	<li class="active">
+                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Administración de sucursales</a>
                     </li>
 				</ul>
             </div>

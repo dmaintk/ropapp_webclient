@@ -42,6 +42,19 @@
         }
 
     	$(document).ready(function() {
+			 Ropapp.getUserData( Ropapp.getUsername(),
+					function(user) {
+						var fullName = user.first_name+' '+user.last_name;
+						$('#username').text(' '+fullName+' ');
+					}
+				);
+		
+			    $("#logout").click( function() {
+                Ropapp.logout( function(response) {
+                    window.location = "login.html";    
+                });
+            });
+		
         	Ropapp.getUserLocations( function(locations) {
                 $.each(locations, function(i, location) {
                     $('#sucursalSelect').append(
@@ -89,14 +102,14 @@
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
              <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" id="username"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
+                            <a href="#" id="logout"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
                         </li>
                     </ul>
                 </li>
@@ -108,14 +121,8 @@
                     <li>
                         <a href="index.html"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
                     </li>
-                    <li>
-                        <a href="pedidos.html"><i class="fa fa-fw fa-truck"></i> Pedidos</a>
-                    </li>
-					<li>
-                        <a href="compras.html"><i class="fa fa-fw fa-usd"></i> Compras</a>
-                    </li>
-					<li class="active">
-                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Sucursales</a>
+                  	<li class="active">
+                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Administración de sucursales</a>
                     </li>
 				</ul>
             </div>
@@ -167,19 +174,19 @@
 			 <hr>
 			<div class="row">
 				<div class="panel panel-default">
-					<div class="panel-heading">Información de la Sucursal</div>
+					<div class="panel-heading"><strong>Información de la Sucursal</strong></div>
 						<div class="panel-body">
 							 <div class="col-lg-6">
 								<div class="table-responsive">
 											<table class="table table-bordered table-hover">
 												<tbody>
 													<tr>
-														<td>Código</td>
-														<td id="code"></td>
+														<td class="col-md-3"><strong>Código</strong></td>
+														<td class="col-md-3" id="code"></td>
 													</tr>
 													<tr>
-														<td>Dirección</td>
-														<td id="address"></td>
+														<td class="col-md-3"><strong>Dirección</strong></td>
+														<td class="col-md-3" id="address"></td>
 													</tr>
 												</tbody>
 											</table>
