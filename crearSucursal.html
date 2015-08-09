@@ -26,6 +26,28 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="api/libs/js.cookie.js"></script>
+    <script type="text/javascript" src="api/ropapp.api.js"></script>
+	
+	 <script>
+        $(document).ready( function() {
+            $("#createbtn").click( function() {
+                var newLocation = {
+                    location_code: $("#code").val(), 
+                    address: $("#address").val(),
+                };
+
+                Ropapp.registerLocation( newLocation, 
+                    function(response) {
+                        window.location = "sucursales.html";
+                    },
+                    function(response) {
+                        
+                    });
+            });
+        });
+    </script>
 
 </head>
 
@@ -110,15 +132,15 @@
 								<div class="panel-body">
 									<div class="form-group">
 										<label>Código</label>
-										<input class="form-control" placeholder="Ingresar código de la sucursal.">
+										<input class="form-control" placeholder="Ingresar código de la sucursal." id="code">
 									</div>
 									<div class="form-group">
 										<label>Dirección</label>
-										<input class="form-control" placeholder="Ingresar Dirección de la sucursal.">
+										<input class="form-control" placeholder="Ingresar Dirección de la sucursal." id="address">
 									</div>				
 																			
 								<div class="panel-footer">
-									<button type="button" class="btn btn-info">Aceptar</button>
+									<button type="button" class="btn btn-info" id="createbtn">Crear sucursal</button>
 								</div>
 							</div>
 						

@@ -29,7 +29,44 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="api/libs/js.cookie.js"></script>
+	<script type="text/javascript" src="api/ropapp.api.js"></script>
+	
+	<script>
+	   var x = "";
+	   function setCurrentLocation( location ) {
+            x = location;
+			$("#code").html(x.location_code);
+            $("#address").html(x.address);
+        }
 
+    	$(document).ready(function() {
+        	Ropapp.getUserLocations( function(locations) {
+                $.each(locations, function(i, location) {
+                    $('#sucursalSelect').append(
+                        $('<option>', { "value" : location.location_code }).text(location.address));
+                            if(i == 0) {
+                                $("#sucursalSelect").val(location.location_code);
+                                setCurrentLocation(location);
+                            }
+                        });
+                    });
+        	 
+        	$('#sucursalSelect').on('change', function() {
+    			Ropapp.getLocationData($(this).val(), function(location) {
+    				setCurrentLocation(location);
+                });
+            });
+        			
+            $("#remove").click( function() {
+                Ropapp.removeLocation( x, function(response) {
+                    window.location = "sucursales.html";    
+                });
+            });
+        });
+	</script>		
+	
 </head>
 
 <body>
@@ -114,14 +151,10 @@
                         <form role="form">
 
                           <div class="form-group">
-                                    <select id="sucursalSelect" class="form-control">
-                                        <option>Sucursal 1</option>
-										<option>Sucursal 2</option>
-									</select>
-                                </div>
+                                    <select id="sucursalSelect" class="form-control"> </select>
+                          </div>
 								
 								<a href="crearSucursal.html" class="btn btn-info" role="button">Crear</a>
-								<a href="editarSucursal.html" class="btn btn-info" role="button">Editar</a>
 								<button class="btn btn-primary">Eliminar</button>
 
                         </form>
@@ -142,11 +175,11 @@
 												<tbody>
 													<tr>
 														<td>Código</td>
-														<td>1322</td>
+														<td id="code"></td>
 													</tr>
 													<tr>
 														<td>Dirección</td>
-														<td>Av. Corrientes 1557</td>
+														<td id="address"></td>
 													</tr>
 												</tbody>
 											</table>
