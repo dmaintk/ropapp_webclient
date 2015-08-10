@@ -31,7 +31,21 @@
   background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
 	}
 	
-	</style>
+	myCheckbox input {
+    display: none;
+}
+
+.myCheckbox span {
+    width: 20px;
+    height: 20px;
+    background: url("link_to_image");
+}
+
+label.radio {
+	padding-left: 22px;
+}
+
+</style>
 	
       <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -151,7 +165,7 @@
 				<div class="control-group">
 				  <label class="control-label" for="rememberme"></label>
 				  <div class="controls">
-					<label class="checkbox inline" for="rememberme-0">
+					<label class="myCheckbox" for="rememberme-0">
 						<input name="rememberme" id="rememberme-0" value="Remember me" type="checkbox">
 						Recordar contraseña
 					</label>
@@ -204,10 +218,8 @@
 				<div class="control-group">
 				  <label class="control-label" for="optionsRadios">Tipo</label>
 				  <div class="controls">
-					<label class="radio inline" for="designer">
-					  <input name="optionsRadios" id="desginer" value="designer" type="radio">Diseñador</label>
-					<label class="radio inline" for="store">
-					  <input name="optionsRadios" id="store" value="store" checked="checked" type="radio">Tienda</label>
+					<label class="radio" for="designer"><input type="radio" name="optionsRadios" id="designer" value="designer"/>Diseñador</label>
+					<label class="radio" for="store"><input type="radio" name="optionsRadios" id="store" value="store" checked="checked"/>Tienda</label>
 				  </div>
 				</div>
 				<br>
