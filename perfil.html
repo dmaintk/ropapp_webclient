@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Administracion de tiendas</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<!-- Barras y botones-->
+	<link href="css/navbars.css" rel="stylesheet" type="text/css">
+	
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+	<style>
+	label.radio {
+	padding-left: 22px;
+	}
+					
+	</style>
+	
+	
+	
+	<script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="api/libs/js.cookie.js"></script>
+	<script type="text/javascript" src="api/ropapp.api.js"></script>
+	
+	<script>
+	   var x = "";
+	   function setCurrentLocation( location ) {
+            x = location;
+			$("#code").html(x.location_code);
+            $("#address").html(x.address);
+        }
+
+    	$(document).ready(function() {
+			 Ropapp.getUserData( Ropapp.getUsername(),
+					function(user) {
+						var fullName = user.first_name+' '+user.last_name;
+						$('#username').text(' '+fullName+' ');
+					}
+				);
+		
+			    $("#logout").click( function() {
+                Ropapp.logout( function(response) {
+                    window.location = "login.html";    
+                });
+            });
+		
+        	Ropapp.getUserLocations( function(locations) {
+                $.each(locations, function(i, location) {
+                    $('#sucursalSelect').append(
+                        $('<option>', { "value" : location.location_code }).text(location.address));
+                            if(i == 0) {
+                                $("#sucursalSelect").val(location.location_code);
+                                setCurrentLocation(location);
+                            }
+                        });
+                    });
+        	 
+        	$('#sucursalSelect').on('change', function() {
+    			Ropapp.getLocationData($(this).val(), function(location) {
+    				setCurrentLocation(location);
+                });
+            });
+        			
+            $("#remove").click( function() {
+                Ropapp.removeLocation( x, function(response) {
+                    window.location = "sucursales.html";    
+                });
+            });
+        });
+	</script>		
+	
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+		<!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:red">
+            <!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               
+					<img src="images/logo.png" height="50" width="135" style="padding-left:85px; border:0px solid #FFFFFF"/>
+			</div>	
+						
+			<!-- Top Menu Items -->
+			<ul class="nav navbar-right top-nav">
+             <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color:red;"><i class="fa fa-user" id="username" style="color:white; font-weight:bold; background-color:red;"></i><b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#" id="logout"><i class="fa fa-fw fa-power-off"></i> Desloggear</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>      
+			
+           <div class="collapse navbar-collapse navbar-ex1-collapse" style="background-color:red">
+                <ul class="nav navbar-nav side-nav" style="background-color:red">
+                    <li>
+                        <a href="index.html" style="color:white; font-weight:bold"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
+                    </li>
+                 	<li>
+                        <a href="sucursales.html" style="color:white; font-weight:bold"><i class="fa fa-fw fa-building"></i> Administración de sucursales</a>
+                    </li>
+					<li class="active">
+                        <a href="perfil.html" style="color:white; font-weight:bold"><i class="fa fa-user"></i> Perfil</a>
+                    </li>
+				</ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+		   <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Perfil
+                        </h1>
+                        <ol class="breadcrumb" style="color:white; background-color:#993333;">
+                            <li style="color:white; font-weight:bold">
+                                <i class="fa fa-gears"></i>  <a href="index.html" style="color:white; font-weight:bold"> Administración de prendas</a>
+                            </li>
+							<li class="active" style="color:white; font-weight:bold">
+                                <i class="fa fa-user"></i> Perfil
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+				<div class="row">
+                    <div class="col-lg-12">	
+						<div class="panel panel-default">
+							<div class="panel-heading" style="color: white; background-color:#993333;">Datos de la cuenta</div>
+								<div class="panel-body">
+										<div class="control-group">
+											<label class="control-label" for="username">Nombre de usuario (Username)</label>
+											<div class="controls">
+												<input id="username" name="username" class="form-control" placeholder=""" required="" type="text">
+											</div>
+										</div>		
+										<div class="control-group">
+											<label class="control-label" for="first_name">Nombre</label>
+											<div class="controls">
+												<input id="first_name" name="first_name" class="form-control" placeholder=""" required="" type="text">
+											</div>
+										</div>
+										<div class="control-group">
+											<label class="control-label" for="last_name">Apellido</label>
+											<div class="controls">
+												<input id="last_name" name="last_name" class="form-control" placeholder=""" required="" type="text">
+											</div>
+										</div>		
+										<div class="control-group">
+											<label class="control-label" for="mail">Email</label>
+											<div class="controls">
+												<input id="mail" name="mail" class="form-control" placeholder=""" required="" type="text">
+											</div>
+										</div>
+				
+										<!-- Multiple Radios -->
+										<br>
+										<div class="control-group">
+										  <label class="control-label" for="optionsRadios">Tipo</label>
+										  <div class="controls">
+											<label class="radio" for="designer"><input type="radio" name="optionsRadios" id="designer" value="designer"/>Diseñador</label>
+											<label class="radio" for="store"><input type="radio" name="optionsRadios" id="store" value="store" checked="checked"/>Tienda</label>
+										  </div>
+										</div>
+										<br>
+							
+										<div class="control-group">
+											<label class="control-label" for="width">Ancho de espalda(cm.)</label>
+												<div class="controls">
+													<input id="width" name="width" class="form-control" placeholder=""" required="" type="text">
+												</div>
+										</div>		
+										<div class="control-group">
+											<label class="control-label" for="height">Altura(cm.)</label>
+												<div class="controls">
+													<input id="height" name="height" class="form-control" placeholder=""" required="" type="text">
+												</div>
+										</div>		
+										<div class="control-group">
+											<label class="control-label" for="pass">Contraseña</label>
+												<div class="controls">
+													<input id="pass" name="pass" class="form-control" placeholder=""" required="" type="password">
+												</div>
+										</div>		
+										<div class="control-group">
+											<label class="control-label" for="pass_rep">Repita contraseña</label>
+												<div class="controls">
+													<input id="pass_rep" name="pass_rep" class="form-control" placeholder=""" required="" type="password">
+												</div>
+										</div>		
+								</div>
+						</div>
+                                <div class="panel-footer">
+									<div class="container">
+										<div class="row">
+											<div class="col-lg-12">
+												<button type="button" class="btn btn-info" id="modifybtn" style="background-color:red;">Aplicar modificaciones</button>
+											</div>
+										</div>
+									</div>	
+                                </div>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col-lg-2 col-lg-offset-10">
+						<button type="button" class="btn btn-info" id="poweroffbtn" style="background-color:black;"><i class="fa fa-fw fa-power-off"></i> Desloggear </button>
+					</div>
+				</div>
+				
+			</div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+		
+      </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="js/plugins/morris/raphael.min.js"></script>
+    <script src="js/plugins/morris/morris.min.js"></script>
+    <script src="js/plugins/morris/morris-data.js"></script>
+
+</body>
+
+</html>

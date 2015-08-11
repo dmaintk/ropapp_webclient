@@ -1,0 +1,36 @@
+ .navbar-inverse .navbar-nav > .active > a
+	{
+		  color: #000;
+		  background: #ff5c14;
+	}
+	
+	.navbar-inverse .navbar-nav > .active > a:focus
+	{
+		  color: #000;
+		  background: #005c14;
+	}
+	 	
+	.btn {
+		background-color:red;
+		font-weight:bold;
+		font-color:white;	
+	}
+	
+	.btn:hover {
+		background-color:red;
+		font-weight:bold;
+		font-color:white;	
+	}
+	
+	.btn:active {
+		background-color:red;
+		font-weight:bold;
+		font-color:white;	
+	}
+	
+	.btn:visited {
+		background-color:red;
+		font-weight:bold;
+		font-color:white;	
+	}
+				
