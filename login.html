@@ -19,6 +19,10 @@
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
 	
+	<!-- Barras y botones-->
+	<link href="css/navbars.css" rel="stylesheet" type="text/css">
+	
+	
 	<style type="text/css">
     .prettyline {
   height: 5px;
@@ -112,14 +116,19 @@ label.radio {
     </script>
 </head>
 
-  <body>
+  <body style="background-color: white;">
+		
+		<h1 style="text-align: center">
+			<img src="images/logo.png" width="200" height="200"/>
+		</h1>
+		
 		<div class="container"> 
 			<hr class="prettyline">
 			<br>
 				<center>
 				<h3>Necesita acceder a una cuenta para administrar su tienda.</h3>
 				<br>
-			  <button class="btn btn-primary btn-lg" href="#signup" data-toggle="modal" data-target=".bs-modal-sm">Sign In/Crear cuenta</button>
+			  <button class="btn btn-primary btn-lg" style="color:white; font-weight:bold; background-color:red;" href="#signup" data-toggle="modal" data-target=".bs-modal-sm">Sign In/Crear cuenta</button>
 			  </center>
 			<br>
 			<hr class="prettyline">
@@ -176,7 +185,7 @@ label.radio {
 				<div class="control-group">
 				  <label class="control-label" for="signin"></label>
 				  <div class="controls">
-					<button href="#" class="btn btn-lg btn-primary btn-block" type="button" id="signin-button">Sign in</button>
+					<button href="#" class="btn btn-lg btn-primary btn-block" style="background-color:red; color:white; font-weight: bold;" type="button" id="signin-button">Sign in</button>
 				  </div>
 				</div>
 				</fieldset>
@@ -253,7 +262,7 @@ label.radio {
 				<div class="control-group">
 				  <label class="control-label" for="createbtn"></label>
 				  <div class="controls">
-					<button type="button" id="createbtn" name="createbtn" class="btn btn-success">Crear cuenta</button>
+					<button type="button" style="background-color:red;" "id="createbtn" name="createbtn" class="btn btn-success">Crear cuenta</button>
 				  </div>
 				</div>
 				</fieldset>

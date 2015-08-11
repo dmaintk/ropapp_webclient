@@ -19,13 +19,17 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
+	
+	<!-- Barras y botones-->
+	<link href="css/navbars.css" rel="stylesheet" type="text/css">
+	
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+		
 	<script type="text/javascript" src="api/libs/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="api/libs/js.cookie.js"></script>
     <script type="text/javascript" src="api/ropapp.api.js"></script>
@@ -69,23 +73,25 @@
 
     <div id="wrapper">
 
-        <!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:red">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
+			<div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Administración de tiendas</a>
-            </div>
-			
+               
+					<img src="images/logo.png" height="50" width="135" style="padding-left:85px; border:0px solid #FFFFFF"/>
+					
+            </div>	
+						
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
              <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user" id="username"></i> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color:red;"><i class="fa fa-user" id="username" style="color:white; font-weight:bold; background-color:red;"></i><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
@@ -98,14 +104,16 @@
                 </li>
             </ul>      
 			
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
+           <div class="collapse navbar-collapse navbar-ex1-collapse" style="background-color:red">
+                <ul class="nav navbar-nav side-nav" style="background-color:red">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
+                        <a href="index.html" style="color:white; font-weight:bold"><i class="fa fa-fw fa-gears"></i> Administración de prendas</a>
                     </li>
-                   	<li class="active">
-                        <a href="sucursales.html"><i class="fa fa-fw fa-building"></i> Administración de sucursales</a>
+                 	<li class="active">
+                        <a href="sucursales.html" style="color:white; font-weight:bold"><i class="fa fa-fw fa-building"></i> Administración de sucursales</a>
+                    </li>
+					<li>
+                        <a href="perfil.html" style="color:white; font-weight:bold"><i class="fa fa-user"></i> Perfil</a>
                     </li>
 				</ul>
             </div>
@@ -122,11 +130,11 @@
                         <h1 class="page-header">
                             Crear sucursal
                         </h1>
-                        <ol class="breadcrumb">
+                        <ol class="breadcrumb" style="background-color:#993333;">
                             <li>
-                                <i class="fa fa-gears"></i>  <a href="index.html"> Administración de prendas</a>
+                                <i class="fa fa-gears" style="color:white; font-weight:bold"></i>  <a href="index.html" style="color:white; font-weight:bold"> Administración de prendas</a>
                             </li>
-                            <li class="active">
+                            <li class="active" style="color:white; font-weight:bold">
                                 <i class="fa fa-save"></i> Crear sucursal
                             </li>
                         </ol>
@@ -136,7 +144,7 @@
 			 <div class="row">
                     <div class="col-lg-12">	
 						<div class="panel panel-default">
-							<div class="panel-heading">Datos de la sucursal</div>
+							<div class="panel-heading" style="color: white; background-color:#993333;">Datos de la sucursal</div>
 								<div class="panel-body">
 									<div class="form-group">
 										<label>Código</label>
@@ -148,7 +156,7 @@
 									</div>				
 																			
 								<div class="panel-footer">
-									<button type="button" class="btn btn-info" id="createbtn">Crear sucursal</button>
+									<button type="button" style="background-color:red" class="btn btn-info" id="createbtn">Crear sucursal</button>
 								</div>
 							</div>
 						
