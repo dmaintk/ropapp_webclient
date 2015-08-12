@@ -71,7 +71,7 @@
 
                 Ropapp.modifyCurrentCloth( currCloth, 
                     function(response) {
-                        window.location = "index.html";
+					   window.location = "index.html";
                     });
             });
         });
@@ -219,7 +219,7 @@
                             </div>
                                 </div>
                                 <div class="panel-footer">
-                                    <button type="button" class="btn btn-info" id="modifybtn" style="background-color:red;">Aplicar modificaciones</button>
+                                    <button type="button" class="btn btn-info" id="modifybtn"  data-toggle="modal"  data-target="#editOkModal" style="background-color:red;">Aplicar modificaciones</button>
                                 </div>
                             </div>
 					</div>
@@ -230,7 +230,27 @@
 				 </div>
 			</div>
             <!-- /.container-fluid -->
-
+		
+		<div class="modal fade" id="editOkModal" role="dialog">
+							<div class="modal-dialog">
+							
+							  <!-- Modal content-->
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <button type="button" class="close" data-dismiss="modal">&times;</button>
+								  <h4 class="modal-title">Información</h4>
+								</div>
+								<div class="modal-body">
+								  <p>La información de la prenda fue modificada con éxito.</p>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-default" data-dismiss="modal" style="color:white; active:red">Cerrar</button>
+								</div>
+							  </div>
+							  
+							</div>
+				</div>
+		
         </div>
         <!-- /#page-wrapper -->
 

@@ -224,7 +224,7 @@
 									<div class="container">
 										<div class="row">
 											<div class="col-lg-12">
-												<button type="button" class="btn btn-info" id="modifybtn" style="background-color:red;">Aplicar modificaciones</button>
+												<button type="button" class="btn btn-info" id="modifybtn" data-toggle="modal"  data-target="#editOkModal" style="background-color:red;">Aplicar modificaciones</button>
 											</div>
 										</div>
 									</div>	
@@ -236,6 +236,26 @@
 						<button type="button" class="btn btn-info" id="deletebtn" style="background-color:black;"><i class="fa fa-fw fa-power-off"></i> Borrar cuenta </button>
 					</div>
 				</div>
+				
+				<div class="modal fade" id="editOkModal" role="dialog">
+							<div class="modal-dialog">
+							
+							  <!-- Modal content-->
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <button type="button" class="close" data-dismiss="modal">&times;</button>
+								  <h4 class="modal-title">Información</h4>
+								</div>
+								<div class="modal-body">
+								  <p>La información del perfil fue modificada con éxito.</p>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-default" data-dismiss="modal" style="color:white; active:red">Cerrar</button>
+								</div>
+							  </div>
+							  
+							</div>
+						  </div>
 				
 			</div>
             <!-- /.container-fluid -->
