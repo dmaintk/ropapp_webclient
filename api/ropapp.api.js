@@ -130,6 +130,7 @@ var Ropapp = (function() {
                 '?access_token=' + Cookies.get('token'));
             
             req.done(function(response) {
+                Cookies.remove('token');
                 callIfDef(onSuccess, "Usuario eliminado exitosamente");
             });
 

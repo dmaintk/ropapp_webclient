@@ -60,6 +60,8 @@
             var h = 100;
 
             $("#barcode").attr("src", "http://www.barcodes4.me/barcode/c128a/"+id+".png?width="+w+"&height="+h);
+
+            $("#clothImage").attr("src", "images/jean1_azulcla.jpg");
         }
 
         $(document).ready(function() {
@@ -76,6 +78,9 @@
                 });
             });
 
+            $("#barcode").attr("src", "images/noImage.png");
+            $("#clothImage").attr("src", "images/noImage.png");
+            
             Ropapp.getUserClothes( function(clothes) {
                 $.each(clothes, function(i, cloth) {
                     $('#prendaSelect').append(
@@ -102,10 +107,7 @@
             });
 
             $("#updateStockBtn").click( function() {
-                Ropapp.modifyCurrentClothStock( $("#inputAmount").val(), 
-                    function(response) {
-                    // TODO: mostrar por pantalla que se modificó exitosamente 
-                });
+                Ropapp.modifyCurrentClothStock($("#inputAmount").val());
             });
         });
     </script>
@@ -285,9 +287,9 @@
 								</div>
 								<div class="col-lg-4 col-lg-offset-2">
 								<div class="row"">
-									<img class="img-thumbnail" src="http://www.uniformesbordados.com.mx/imagenes/camisas/camisas-casuales/camisa-laboral.jpg" alt="" width="200" height="500">
+									<img class="img-thumbnail" id="clothImage" src="" alt="" width="200" height="500">
 								</div>	
-								<div class="row"">
+								<div class="row">
 								 <div class="col-lg-12 col-lg-offset-1">
                                     <img class="img-thumbnail" src="" id="barcode" width="93" height="220">
 								</div>	
