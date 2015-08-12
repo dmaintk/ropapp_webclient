@@ -112,6 +112,7 @@ var Ropapp = (function() {
         },
 
         modifyUser: function( formParams, onSuccess, onError ) {
+            formParams.username = Cookies.get('username');
             formParams.access_token = Cookies.get('token');
             var req = put('user', formParams);
 
