@@ -47,50 +47,47 @@
 	<script type="text/javascript" src="api/ropapp.api.js"></script>
 	
 	<script>
-	   var x = "";
-	   function setCurrentLocation( location ) {
-            x = location;
-			$("#code").html(x.location_code);
-            $("#address").html(x.address);
-        }
-
     	$(document).ready(function() {
 			 Ropapp.getUserData( Ropapp.getUsername(),
-					function(user) {
-						var fullName = user.first_name+' '+user.last_name;
-						$('#username').text(' '+fullName+' ');
-					}
-				);
-		
-			    $("#logout").click( function() {
+				function(user) {
+					var fullName = user.first_name+' '+user.last_name;
+					$('#username').text(' '+fullName+' ');
+
+		            $("#usrname").val(user.username);
+		            $("#first_name").val(user.first_name);
+		            $("#last_name").val(user.last_name);
+		            $("#mail").val(user.mail);
+		            $("#width").val(user.width);
+		            $("#height").val(user.height);
+		            $("#"+user.type).prop('checked', true);
+			});
+
+			$("#logout").click( function() {
                 Ropapp.logout( function(response) {
-                    window.location = "login.html";    
+                    window.location = "login.html";
+                }); 
+            });
+
+			$("#deletebtn").click( function() {
+                Ropapp.removeUser( function(response) {
+                    window.location = "login.html";
                 });
             });
-		
-        	Ropapp.getUserLocations( function(locations) {
-                $.each(locations, function(i, location) {
-                    $('#sucursalSelect').append(
-                        $('<option>', { "value" : location.location_code }).text(location.address));
-                            if(i == 0) {
-                                $("#sucursalSelect").val(location.location_code);
-                                setCurrentLocation(location);
-                            }
-                        });
-                    });
-        	 
-        	$('#sucursalSelect').on('change', function() {
-    			Ropapp.getLocationData($(this).val(), function(location) {
-    				setCurrentLocation(location);
-                });
+
+            $("#modifybtn").click( function() {
+                var currUser = {
+                    username: $("#usrname").val(), 
+                    first_name: $("#first_name").val(),
+                    last_name: $("#last_name").val(),
+                    mail: $("#mail").val(),
+                    type: $("input:radio[name=optionsRadios]:checked").val(),
+                    width: $("#width").val(),
+                    height: $("#height").val(),
+                };
+
+                Ropapp.modifyUser(currUser);
             });
-        			
-            $("#remove").click( function() {
-                Ropapp.removeLocation( x, function(response) {
-                    window.location = "sucursales.html";    
-                });
-            });
-        });
+    	});
 	</script>		
 	
 </head>
@@ -175,9 +172,9 @@
 							<div class="panel-heading" style="color: white; background-color:#993333;">Datos de la cuenta</div>
 								<div class="panel-body">
 										<div class="control-group">
-											<label class="control-label" for="username">Nombre de usuario (Username)</label>
+											<label class="control-label" for="usrname">Nombre de usuario (Username)</label>
 											<div class="controls">
-												<input id="username" name="username" class="form-control" placeholder=""" required="" type="text">
+												<input id="usrname" name="usrname" class="form-control" placeholder=""" required="" type="text">
 											</div>
 										</div>		
 										<div class="control-group">
@@ -222,18 +219,6 @@
 													<input id="height" name="height" class="form-control" placeholder=""" required="" type="text">
 												</div>
 										</div>		
-										<div class="control-group">
-											<label class="control-label" for="pass">Contraseña</label>
-												<div class="controls">
-													<input id="pass" name="pass" class="form-control" placeholder=""" required="" type="password">
-												</div>
-										</div>		
-										<div class="control-group">
-											<label class="control-label" for="pass_rep">Repita contraseña</label>
-												<div class="controls">
-													<input id="pass_rep" name="pass_rep" class="form-control" placeholder=""" required="" type="password">
-												</div>
-										</div>		
 								</div>
 						</div>
                                 <div class="panel-footer">
@@ -249,7 +234,7 @@
 				</div>
 				<div class="row">
 					<div class="col-lg-2 col-lg-offset-10">
-						<button type="button" class="btn btn-info" id="poweroffbtn" style="background-color:black;"><i class="fa fa-fw fa-power-off"></i> Desloggear </button>
+						<button type="button" class="btn btn-info" id="deletebtn" style="background-color:black;"><i class="fa fa-fw fa-power-off"></i> Borrar cuenta </button>
 					</div>
 				</div>
 				

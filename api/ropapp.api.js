@@ -2,19 +2,27 @@
 var Ropapp = (function() {
     var debug = true;
     var baseUrl = "http://ropapp.cloudapp.net/";
-    Cookies.defaults = { expires: 7, path: '/' };
+    Cookies.defaults = { expires: 1, path: '/' };
 
-    var ajaxCall = function( type, url, data ) { 
-        return $.ajax({
+    var ajaxCall = function( type, url, data, contentType ) { 
+        var obj = {
             type: type, 
             url: baseUrl + url, 
             data: data, 
             dataType: 'json'  // tipo de respuesta
-        });
+        };
+
+        if(isDef(contentType)) {
+            obj.contentType = contentType;
+            obj.processData = false;
+            obj.cache = false;
+        }
+
+        return $.ajax(obj);
     }
 
-    var post = function( url, data ) {
-        return ajaxCall( 'POST', url, data );
+    var post = function( url, data, contentType ) {
+        return ajaxCall( 'POST', url, data, contentType );
     }
 
     var put = function( url, data ) {
@@ -73,12 +81,12 @@ var Ropapp = (function() {
             });   
         },
 
-        registerUser: function( formContent, onSuccess, onError ) {
-            var req = post('signup', formContent);
+        registerUser: function( formParams, onSuccess, onError ) {
+            var req = post('signup', formParams);
             
             req.done(function(response) {
                 Cookies.set('token', response.access_token);
-                Cookies.set('username', formContent.username);
+                Cookies.set('username', formParams.username);
                 callIfDef(onSuccess, "Usuario creado exitosamente");
             });
 
@@ -103,10 +111,9 @@ var Ropapp = (function() {
             });
         },
 
-        modifyUser: function( formContent, onSuccess, onError ) {
-            formContent.username = Cookies.get('username');
-            formContent.access_token = Cookies.get('token');
-            var req = put('user', formContent);
+        modifyUser: function( formParams, onSuccess, onError ) {
+            formParams.access_token = Cookies.get('token');
+            var req = put('user', formParams);
 
             req.done(function(response) {
                 callIfDef(onSuccess, "Usuario modificado exitosamente");
@@ -159,9 +166,9 @@ var Ropapp = (function() {
             });
         },
 
-        registerLocation: function( formContent, onSuccess, onError ) {
-            formContent.access_token = Cookies.get('token');
-            var req = post('location', formContent);
+        registerLocation: function( formParams, onSuccess, onError ) {
+            formParams.access_token = Cookies.get('token');
+            var req = post('location', formParams);
             
             req.done(function(response) {
                 callIfDef(onSuccess, "Sucursal agregada exitosamente");
@@ -215,16 +222,30 @@ var Ropapp = (function() {
         },
 
         getClothImage: function( code, onSuccess, onError ) {
-            
-        },
-
-        registerClothImage: function( image, onSuccess, onError ) {
 
         },
 
-        registerCloth: function( formContent, onSuccess, onError ) {
-            formContent.access_token = Cookies.get('token');
-            var req = post('cloth', formContent);
+        registerClothImage: function( formData, onSuccess, onError ) {
+            var formParams = { image: formData, 
+                access_token: Cookies.get('token'),
+                username: Cookies.get('username') };
+            var req = post('cloth/' + Cookies.get('username') +
+                '/' + Cookies.get('currCloth') + '/image', 
+                formParams, "multipart/form-data");
+            console.log(formParams);
+            req.done(function(response) {
+                callIfDef(onSuccess, "Imagen registrada exitosamente");
+            });
+
+            req.fail(function(error) {
+                callIfDef(onError, "No se pudo registrar imagen: "+
+                        error.responseText);
+            });
+        },
+
+        registerCloth: function( formParams, onSuccess, onError ) {
+            formParams.access_token = Cookies.get('token');
+            var req = post('cloth', formParams);
             
             req.done(function(response) {
                 callIfDef(onSuccess, "Prenda creada exitosamente");
@@ -236,9 +257,9 @@ var Ropapp = (function() {
             });
         },
 
-        modifyCurrentCloth: function( formContent, onSuccess, onError ) {
-            formContent.access_token = Cookies.get('token');
-            var req = put('cloth/'+Cookies.get('currCloth'), formContent);
+        modifyCurrentCloth: function( formParams, onSuccess, onError ) {
+            formParams.access_token = Cookies.get('token');
+            var req = put('cloth/'+Cookies.get('currCloth'), formParams);
 
             req.done(function(response) {
                 callIfDef(onSuccess, "Prenda modificada exitosamente");
@@ -285,9 +306,9 @@ var Ropapp = (function() {
         },
 
         modifyCurrentClothStock: function( newqty, onSuccess, onError ) {
-            var formContent = { quantity: newqty, 
+            var formParams = { quantity: newqty, 
                 access_token: Cookies.get('token') };
-            var req = put('stock/'+Cookies.get('currCloth'), formContent);
+            var req = put('stock/'+Cookies.get('currCloth'), formParams);
 
             req.done(function(response) {
                 callIfDef(onSuccess, "Stock modificado exitosamente");

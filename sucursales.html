@@ -76,9 +76,9 @@
     				setCurrentLocation(location);
                 });
             });
-        			
+
             $("#remove").click( function() {
-                Ropapp.removeLocation( x, function(response) {
+                Ropapp.removeLocation( x.location_code, function(response) {
                     window.location = "sucursales.html";    
                 });
             });
@@ -109,7 +109,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color:#E00000;"><i class="fa fa-user" id="username" style="color:white; font-weight:bold; background-color:#E00000;"></i><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Perfil</a>
+                            <a href="perfil.html"><i class="fa fa-fw fa-user"></i> Perfil</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -171,7 +171,7 @@
                           </div>
 								
 								<a href="crearSucursal.html" class="btn btn-info" role="button">Crear</a>
-								<button class="btn btn-primary">Eliminar</button>
+								<button class="btn btn-primary" id="remove">Eliminar</button>
 
                         </form>
 															
