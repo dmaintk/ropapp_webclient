@@ -55,11 +55,8 @@
                 $("#inputAmount").val(quantity);
             });
 
-            var id = ""+cloth.brand+cloth.model;
-            var w = 300;
-            var h = 100;
-
-            $("#barcode").attr("src", "http://www.barcodes4.me/barcode/c128a/"+id+".png?width="+w+"&height="+h);
+            ;
+            $("#barcode").attr("src", "http://www.barcodes4.me/barcode/qr/qr.png?value="+cloth.code+"&size="+6+"&ecclevel=0");
 
             $("#clothImage").attr("src", "images/jean1_azulcla.jpg");
         }
@@ -286,15 +283,11 @@
 										</div>
 								</div>
 								<div class="col-lg-4 col-lg-offset-1">
-								<div class="row"">
+								<div class="row">
 									 <div class="col-lg-12">
 										<img class="img-thumbnail" id="clothImage" src="" alt="" width="200" height="500">
+                                        <img class="img-thumbnail col-lg-offset-1" src="" id="barcode" width="140" height="140">
 									</div>
-								</div>	
-								<div class="row">
-								 <div class="col-lg-12">
-                                    <img class="img-thumbnail" src="" id="barcode" width="200" height="200">
-								 </div>	
 								</div>	
 								</div>
 							</div>
